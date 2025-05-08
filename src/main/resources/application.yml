@@ -1,0 +1,16 @@
+logging:
+  level:
+    org:
+      springframework:
+        beans:
+          factory:
+            annotation: DEBUG
+  pattern:
+    console:
+spring:
+  profiles:
+    active: "dev"
+  application:
+    name: weather-mcp-server
+  main:
+    banner-mode: off

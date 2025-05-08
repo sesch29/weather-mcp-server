@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### application
-.env
+src/main/resources/application-*.yml

@@ -9,10 +9,8 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(24)
+        languageVersion = JavaLanguageVersion.of(19)
     }
-//	sourceCompatibility = JavaVersion.VERSION_19
-//	targetCompatibility = JavaVersion.VERSION_19
 }
 
 repositories {
@@ -24,9 +22,6 @@ ext {
 }
 
 dependencies {
-//	implementation platform("org.springframework.ai:spring-ai-starter-mcp-server")
-//	implementation platform("org.springframework:spring-web")
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.ai:spring-ai-starter-mcp-server-webmvc'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

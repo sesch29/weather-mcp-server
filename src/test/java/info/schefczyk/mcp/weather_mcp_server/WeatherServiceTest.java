@@ -1,5 +1,7 @@
 package info.schefczyk.mcp.weather_mcp_server;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,7 +65,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class WeatherServiceTest {
 
-    public void happyFlow() {
+    @Test
+    void happyFlow() {
         // Arrange
         WeatherService weatherService = new WeatherService();
 
@@ -75,6 +78,4 @@ class WeatherServiceTest {
         assertTrue(result.contains("Worms"));
 //        assertTrue(result.contains("Wind speed"));
     }
-
-
 }
