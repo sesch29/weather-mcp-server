@@ -4,28 +4,37 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+/**
+ * API-Documentation:
+ * <a href="https://openweathermap.org/api#maps">openweathermap.org/api#maps</a>
+ * <a href="https://openweathermap.org/api/geocoding-api">openweathermap.org/api/geocoding-api</a>
+ * <a href="https://openweathermap.org/api/air-pollution">openweathermap.org/api/air-pollution</a>
+ */
+@PropertySource("classpath:application-${spring.profiles.active}.yml")
 @Service
 public class WeatherService {
 
+    @Value("${my.openweathermap.apikey}")
+    private String apiKey;
     private final RestClient restClient;
-    @Value("${openweathermapapikey}")
-    private String appId;
 
     public WeatherService() {
         restClient = RestClient.builder()
                 .defaultHeader("Accept", "application/geo+json")
                 .build();
+        System.out.println("WeatherService: App ID: " + this.apiKey);
     }
 
     @PostConstruct
     public void init() {
-        System.out.println("App ID: " + appId);
+        System.out.println("WeatherService.init: appId=" + this.apiKey);
     }
 
     @Tool(description = "Get weather forecast for a specific latitude/longitude (format like '49.640556' and '8.278889')")
@@ -33,11 +42,12 @@ public class WeatherService {
             @ToolParam(description = "Latitude in form like '51.5073219'") String latitude,   // Latitude coordinate
             @ToolParam(description = "Longitude in form like '0.1276474'") String longitude   // Longitude coordinate
     ) {
+        System.out.println("WeatherService.getWeatherForecastByLocation: appId=" + this.apiKey);
         var uri = UriComponentsBuilder
                 .fromUriString("https://api.openweathermap.org/data/2.5/weather")
                 .queryParam("lat", latitude)
                 .queryParam("lon", longitude)
-                .queryParam("appid", appId)
+                .queryParam("appid", this.apiKey)
                 .build()
                 .toUriString();
 
@@ -69,7 +79,7 @@ public class WeatherService {
     ) {
         var response = restClient
                 .get()
-                .uri("https://api.openweathermap.org/geo/1.0/direct?q={searchQuery}&limit=1&appid={appId}", searchQuery, appId)
+                .uri("https://api.openweathermap.org/geo/1.0/direct?q={searchQuery}&limit=1&appid={appId}", searchQuery, apiKey)
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .toEntity(String.class);

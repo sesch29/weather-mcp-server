@@ -1,15 +1,12 @@
 logging:
   level:
     org:
-      springframework:
-        beans:
-          factory:
-            annotation: DEBUG
+      springframework: DEBUG
   pattern:
     console:
 spring:
   profiles:
-    active: "dev"
+    active: dev
   application:
     name: weather-mcp-server
   main:
